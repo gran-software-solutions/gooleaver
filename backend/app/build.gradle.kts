@@ -1,11 +1,12 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  kotlin ("jvm") version "1.7.21"
+  kotlin("jvm") version "1.7.21"
   application
   id("com.github.johnrengelman.shadow") version "7.1.2"
+  id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
 }
 
 group = "de.gransoftware"
@@ -22,7 +23,7 @@ val mainVerticleName = "de.gransoftware.gooleaver.MainVerticle"
 val launcherClassName = "io.vertx.core.Launcher"
 
 val watchForChange = "src/**/*"
-val doOnChange = "${projectDir}/gradlew classes"
+val doOnChange = "$projectDir/gradlew classes"
 
 application {
   mainClass.set(launcherClassName)
@@ -52,7 +53,7 @@ tasks.withType<ShadowJar> {
 tasks.withType<Test> {
   useJUnitPlatform()
   testLogging {
-    events = setOf(PASSED, SKIPPED, FAILED)
+    events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
   }
 }
 
