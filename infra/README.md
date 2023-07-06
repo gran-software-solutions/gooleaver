@@ -25,6 +25,7 @@ Storage account name is global. For this reason a random number must be appended
 ```
 az acr login -n acrGooleaver
 ```
+
 ## Pull from container registry
 
 ```
