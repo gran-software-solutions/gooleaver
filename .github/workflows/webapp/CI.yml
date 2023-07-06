@@ -1,0 +1,40 @@
+name: CI - Webapp
+on:
+  push:
+    - main
+  pull_request:
+    paths:
+      - '../webapp/**.*'
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    working-directory: webapp/app
+
+jobs:
+  build:
+    name: Build Webapp
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: webapp/app
+      - name: Lint
+        run: npm run lint
+      - name: Run Unit Tests
+        run: npm run test:unit
+      - name: Build project
+        run: npm run build
+      - name: Upload Artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-dist
+          path: app-dist/
+          retention-days: 2
