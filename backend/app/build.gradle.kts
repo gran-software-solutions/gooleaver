@@ -22,7 +22,7 @@ val vertxVersion = "4.4.4"
 val junitJupiterVersion = "5.9.1"
 
 val mainVerticleName = "de.gransoftware.gooleaver.MainVerticle"
-val launcherClassName = "io.vertx.core.Launcher"
+val launcherClassName = "de.gransoftware.gooleaver.MainKt"
 
 val watchForChange = "src/**/*"
 val doOnChange = "$projectDir/gradlew classes"
@@ -37,6 +37,16 @@ dependencies {
   implementation("io.vertx:vertx-lang-kotlin")
   implementation(kotlin("stdlib-jdk8"))
   implementation("io.vertx:vertx-web:4.4.4")
+  implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
+  implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.18")
+
+  implementation("com.fasterxml.jackson.core:jackson-databind:2.13.4.2")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.4")
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4")
+
+  implementation("org.slf4j:slf4j-api:2.0.5")
+  implementation("org.slf4j:slf4j-simple:2.0.7")
+
   testImplementation("io.vertx:vertx-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter:$junitJupiterVersion")
 }
