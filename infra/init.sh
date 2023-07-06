@@ -18,7 +18,7 @@ az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_
 
 # Create blob container
 echo "Creating a blob container..."
-az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME --default-action Allow
+az storage container create --name $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME
 
 echo "Creating the key vault..."
 az keyvault create --name $KEY_VAULT_NAME --resource-group $RESOURCE_GROUP_NAME --location $LOCATION
