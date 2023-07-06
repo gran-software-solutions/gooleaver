@@ -22,6 +22,7 @@ resource "azurerm_resource_group" "tf_resource_group" {
   location = var.resource_group_location
 }
 
+
 resource "azurerm_storage_account" "tf_storage_account" {
   name                     = var.storage_account_name_prefix + random_string.resource_code.result
   resource_group_name      = var.resource_group_name
