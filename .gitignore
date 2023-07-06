@@ -1,5 +1,4 @@
 /.idea/
-/infra/backend.conf
 
 # Local .terraform directories
 **/.terraform/*
