@@ -1,5 +1,4 @@
 /.idea/
-/infra/backend.conf
 
 # Local .terraform directories
 **/.terraform/*
@@ -35,4 +34,3 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-/infra/.terraform.lock.hcl

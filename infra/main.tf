@@ -1,7 +1,12 @@
-provider "azurerm" {
-  features {}
+terraform {
+  required_providers {
+    azurerm = { }
+  }
+
+  backend "azurerm" { }
 }
 
-terraform {
-  backend "azurerm" { }
+resource "azurerm_resource_group" "rg_gooleaver" {
+  name     = "rgGooleaver"
+  location = "Germany West Central"
 }
