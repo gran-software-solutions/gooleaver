@@ -7,6 +7,8 @@ plugins {
   application
   id("com.github.johnrengelman.shadow") version "7.1.2"
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
+  id("org.sonarqube") version "4.2.1.3168"
+  id("com.google.cloud.tools.jib") version "3.3.1"
 }
 
 group = "de.gransoftware"
@@ -40,10 +42,10 @@ dependencies {
 }
 
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions.jvmTarget = "11"
+compileKotlin.kotlinOptions.jvmTarget = "17"
 
 tasks.withType<ShadowJar> {
-  archiveClassifier.set("fat")
+  archiveFileName.set("gooleaver-backend.jar")
   manifest {
     attributes(mapOf("Main-Verticle" to mainVerticleName))
   }
@@ -59,4 +61,18 @@ tasks.withType<Test> {
 
 tasks.withType<JavaExec> {
   args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
+}
+
+jib {
+  from {
+    image = "openjdk:17-slim"
+  }
+  to {
+    image = "acrgooleaver.azurecr.io/gooleaver-backend"
+    tags = setOf("latest")
+  }
+  container {
+    mainClass = launcherClassName
+    ports = listOf("8888")
+  }
 }

@@ -1,5 +1,9 @@
 # gooleaver backend
 
+## Requirements
+
+* Java 17
+
 ## How to run
 
 ```shell
