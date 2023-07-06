@@ -9,6 +9,7 @@ plugins {
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
   id("org.sonarqube") version "4.2.1.3168"
   id("com.google.cloud.tools.jib") version "3.3.1"
+  jacoco
 }
 
 group = "de.gransoftware"
@@ -16,6 +17,10 @@ version = "1.0.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
+}
+
+jacoco {
+  toolVersion = "0.8.10"
 }
 
 val vertxVersion = "4.4.4"
@@ -66,6 +71,24 @@ tasks.withType<Test> {
   useJUnitPlatform()
   testLogging {
     events = setOf(TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED)
+  }
+  finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+  reports {
+    html.required.set(true)
+  }
+  finalizedBy(tasks.jacocoTestCoverageVerification)
+}
+
+tasks.jacocoTestCoverageVerification {
+  violationRules {
+    rule {
+      limit {
+        minimum = "0.9".toBigDecimal()
+      }
+    }
   }
 }
 
