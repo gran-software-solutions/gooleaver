@@ -6,6 +6,8 @@ on:
   push:
     paths:
       - 'backend/**'
+    branches:
+      - main
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -55,7 +57,7 @@ jobs:
         run: ./gradlew jibDockerBuild
 
       - name: Login to ACR
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.ref == 'refs/heads/main'
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         uses: docker/login-action@v2
         with:
           registry: acrgooleaver.azurecr.io
@@ -63,5 +65,5 @@ jobs:
           password: ${{ secrets.AZURE_CLIENT_SECRET }}
 
       - name: Build image and push
-        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.ref == 'refs/heads/main'
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
         run: ./gradlew jib --tags=${{ steps.meta.outputs.tags }}
