@@ -36,6 +36,12 @@ jobs:
       - name: Build and test
         run: ./gradlew build
 
+      - name: Archive detekt report
+        uses: actions/upload-artifact@v3
+        with:
+          name: detekt-report
+          path: build/reports/detekt
+
       - name: Extract metadata for the Docker image
         id: meta
         uses: docker/metadata-action@v4
