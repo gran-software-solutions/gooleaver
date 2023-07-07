@@ -1,14 +1,16 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  kotlin("jvm") version "1.7.21"
+  kotlin("jvm") version "1.8.22"
   application
   id("com.github.johnrengelman.shadow") version "7.1.2"
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
   id("org.sonarqube") version "4.2.1.3168"
   id("com.google.cloud.tools.jib") version "3.3.1"
+  id("io.gitlab.arturbosch.detekt") version "1.23.0"
   jacoco
 }
 
@@ -107,5 +109,19 @@ jib {
   container {
     mainClass = launcherClassName
     ports = listOf("8888")
+  }
+}
+
+detekt {
+  toolVersion = "1.23.0"
+  config.setFrom(file("config/detekt/detekt.yml"))
+  buildUponDefaultConfig = true
+}
+
+tasks.withType<Detekt>().configureEach {
+  reports {
+    html.required.set(true)
+    txt.required.set(true)
+    md.required.set(true)
   }
 }

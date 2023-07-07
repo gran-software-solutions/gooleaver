@@ -33,6 +33,9 @@ jobs:
       - name: Run ktlint check
         run: ./gradlew ktlintCheck
 
+      - name: Build and test
+        run: ./gradlew build
+
       - name: Extract metadata for the Docker image
         id: meta
         uses: docker/metadata-action@v4

@@ -17,7 +17,7 @@ class TestMainVerticle {
   }
 
   @Test
-  fun verticle_deployed(vertx: Vertx, testContext: VertxTestContext) {
+  fun verticle_deployed(testContext: VertxTestContext) {
     testContext.completeNow()
   }
 }
