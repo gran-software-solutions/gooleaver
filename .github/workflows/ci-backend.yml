@@ -39,9 +39,10 @@ jobs:
       - name: Extract metadata for the Docker image
         id: meta
         uses: docker/metadata-action@v4
-        tags: |
-          type=sha
-          type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+        with:
+          tags: |
+            type=sha
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
 
       - name: Build image
         run: ./gradlew jibDockerBuild --tags=${{ steps.meta.outputs.tags }}
