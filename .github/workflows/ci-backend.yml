@@ -3,11 +3,11 @@ on:
   pull_request:
     paths:
       - 'backend/app/**'
-      - 'workflows/**'
+      - '.github/workflows/ci-backend.yml'
   push:
     paths:
       - 'backend/app/**'
-      - 'workflows/**'
+      - '.github/workflows/ci-backend.yml'
 
 concurrency:
   group: ci-${{ github.ref }}
