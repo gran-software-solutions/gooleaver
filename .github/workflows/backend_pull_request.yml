@@ -1,10 +1,10 @@
 on:
   pull_request:
     paths:
-      - '../../backend/**.*'
+      - '../backend/**.*'
   push:
     paths:
-      - '../../backend/**.*'
+      - '../backend/**.*'
     branches:
       - 'main'
 
