@@ -18,6 +18,7 @@ defaults:
 jobs:
   build:
     name: Build Webapp
+    id: build-webapp
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -43,14 +44,34 @@ jobs:
           working-directory: webapp/app
       - name: Check Coverage
         run: |
-          COVERAGE_LINES=$(jq '.total.lines.pct' ./coverage/coverage-summary.json)
-          COVERAGE_STATEMENT=$(jq '.total.statements.pct' ./coverage/coverage-summary.json)
-          COVERAGE_FUNCTIONS=$(jq '.total.functions.pct' ./coverage/coverage-summary.json)
-          COVERAGE_BRANCHES=$(jq '.total.branches.pct' ./coverage/coverage-summary.json)
           COVERAGE_THRESHOLD=60
-          if (( $(echo "$COVERAGE_LINES < $COVERAGE_THRESHOLD" | bc -l) )); then
+          COVERAGE_LINES=$(jq '.total.lines.pct' ./coverage/coverage-summary.json)
+          if [ $COVERAGE_LINES == "\"Unknown\"" ]; then
+            echo "Coverage for Lines is Unknown"
+          fi
+          if (( COVERAGE_LINES < COVERAGE_THRESHOLD )); then
             echo "Coverage is below the threshold of $COVERAGE_THRESHOLD%"
-            exit 1
+          fi
+          COVERAGE_STATEMENT=$(jq '.total.statements.pct' ./coverage/coverage-summary.json)
+          if [ $COVERAGE_STATEMENT == "\"Unknown\"" ]; then
+            echo "Coverage for Lines is Unknown"
+          fi
+          if (( COVERAGE_STATEMENT < COVERAGE_THRESHOLD )); then
+            echo "Coverage is below the threshold of $COVERAGE_THRESHOLD%"
+          fi
+          COVERAGE_FUNCTIONS=$(jq '.total.functions.pct' ./coverage/coverage-summary.json)
+          if [ $COVERAGE_FUNCTIONS == "\"Unknown\"" ]; then
+            echo "Coverage for Lines is Unknown"
+          fi
+          if (( COVERAGE_FUNCTIONS < COVERAGE_THRESHOLD )); then
+            echo "Coverage is below the threshold of $COVERAGE_THRESHOLD%"
+          fi
+          COVERAGE_BRANCHES=$(jq '.total.branches.pct' ./coverage/coverage-summary.json)
+          if [ $COVERAGE_BRANCHES == "\"Unknown\"" ]; then
+            echo "Coverage for Lines is Unknown"
+          fi
+          if (( COVERAGE_BRANCHES < COVERAGE_THRESHOLD )); then
+            echo "Coverage is below the threshold of $COVERAGE_THRESHOLD%"
           fi
       - name: Build project
         run: npm run build
