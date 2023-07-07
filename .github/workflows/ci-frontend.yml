@@ -1,5 +1,13 @@
 name: CI - Webapp
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'webapp/app/**'
+  pull_request:
+    paths:
+      - 'webapp/app/**'
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
