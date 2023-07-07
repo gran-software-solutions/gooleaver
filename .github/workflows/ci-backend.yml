@@ -70,7 +70,7 @@ jobs:
         run: ./gradlew jib -Djib.to.tags=${{ steps.vars.outputs.img_tag }},latest
 
       - name: Update image tag file
-        run: echo ${{ steps.vars.outputs.img_tag }} > backend/image-sha-dev.txt
+        run: echo ${{ steps.vars.outputs.img_tag }} > ../../backend/image-sha-dev.txt
       - name: Commit report
         run: |
           git config --global user.name 'Github Actions'
