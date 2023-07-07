@@ -14,6 +14,10 @@ export default mergeConfig(
         web: [/\.[jt]sx$/]
       },
       coverage: {
+        lines: 60,
+        branches: 60,
+        functions: 60,
+        statements: 60,
         provider: 'istanbul',
         reporter: ['text', 'json', 'html', 'json-summary'],
       },
