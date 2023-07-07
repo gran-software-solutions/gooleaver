@@ -1,13 +1,15 @@
 name: CI - Webapp
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'webapp/app/**'
   pull_request:
     paths:
       - 'webapp/app/**'
+      - '.github/workflows/ci-frontend.yml'
+  push:
+    paths:
+      - 'webapp/app/**'
+      - '.github/workflows/ci-frontend.yml'
+    branches:
+      - main
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -87,5 +89,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app-dist
-          path: app-dist/
+          path: webapp/app/dist
           retention-days: 2
