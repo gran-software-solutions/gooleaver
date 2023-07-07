@@ -11,6 +11,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -65,3 +68,12 @@ jobs:
       - name: Build image and push
         if: github.ref == 'refs/heads/main'
         run: ./gradlew jib -Djib.to.tags=${{ steps.vars.outputs.img_tag }},latest
+
+      - name: Update image tag file
+        run: echo ${{ steps.vars.outputs.img_tag }} > image-sha-dev.txt
+      - name: Commit report
+        run: |
+          git config --global user.name 'Github Actions'
+          git config --global user.email 'tech@gransoftware.de'
+          git commit -am "Update image tag file"
+          git push
