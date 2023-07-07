@@ -5,9 +5,11 @@ on:
       - main
     paths:
       - 'webapp/app/**'
+      - '.github/workflows/ci-frontend.yml'
   pull_request:
     paths:
       - 'webapp/app/**'
+      - '.github/workflows/ci-frontend.yml'
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
