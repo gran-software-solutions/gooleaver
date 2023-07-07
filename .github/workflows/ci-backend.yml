@@ -70,8 +70,10 @@ jobs:
         run: ./gradlew jib -Djib.to.tags=${{ steps.vars.outputs.img_tag }},latest
 
       - name: Update image tag file
+        if: github.ref == 'refs/heads/main'
         run: echo ${{ steps.vars.outputs.img_tag }} > ../../backend/image-sha-dev.txt
       - name: Commit report
+        if: github.ref == 'refs/heads/main'
         run: |
           git config --global user.name 'Github Actions'
           git config --global user.email 'tech@gransoftware.de'
