@@ -6,8 +6,6 @@ on:
   push:
     paths:
       - 'backend/**'
-    branches:
-      - 'main'
 
 concurrency:
   group: ci-${{ github.ref }}
