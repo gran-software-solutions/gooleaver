@@ -85,7 +85,7 @@ jobs:
       - name: Build project
         run: npm run build
       - name: Upload Artifact
-
+        if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v3
         with:
           name: app-dist
