@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: detekt-report
-          path: build/reports/detekt
+          path: backend/app/build/reports/detekt
 
       - name: Extract metadata for the Docker image
         id: meta
