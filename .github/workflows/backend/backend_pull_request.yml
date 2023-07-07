@@ -1,7 +1,7 @@
 on:
   pull_request:
     paths:
-      - '../backend/**.*'
+      - '../../backend/**.*'
 defaults:
   run:
     working-directory: backend/app
