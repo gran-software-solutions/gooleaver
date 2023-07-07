@@ -43,6 +43,7 @@ jobs:
           working-directory: webapp/app
       - name: Check Coverage
         run: |
+          cd websapp/app
           COVERAGE_LINES=$(jq '.total.lines.pct' ./coverage/coverage-summary.json)
           COVERAGE_STATEMENT=$(jq '.total.statements.pct' ./coverage/coverage-summary.json)
           COVERAGE_FUNCTIONS=$(jq '.total.functions.pct' ./coverage/coverage-summary.json)
@@ -52,8 +53,6 @@ jobs:
             echo "Coverage is below the threshold of $COVERAGE_THRESHOLD%"
             exit 1
           fi
-        with:
-          working-directory: webapp/app
       - name: Build project
         run: npm run build
       - name: Upload Artifact
