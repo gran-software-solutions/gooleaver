@@ -8,6 +8,8 @@ on:
     paths:
       - 'backend/app/**'
       - '.github/workflows/ci-backend.yml'
+    branches:
+      - main
 
 concurrency:
   group: ci-${{ github.ref }}
