@@ -52,6 +52,8 @@ jobs:
             echo "Coverage is below the threshold of $COVERAGE_THRESHOLD%"
             exit 1
           fi
+        with:
+          working-directory: webapp/app
       - name: Build project
         run: npm run build
       - name: Upload Artifact
