@@ -24,6 +24,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Node
         uses: actions/setup-node@v3
+      - name: Install jq
+        run: sudo apt-get install jq
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
         with:
@@ -39,6 +41,17 @@ jobs:
         with:
           name: 'Webapp Code Coverage'
           working-directory: webapp/app
+      - name: Check Coverage
+        run: |
+          COVERAGE_LINES=$(jq '.total.lines.pct' ./coverage/coverage-summary.json)
+          COVERAGE_STATEMENT=$(jq '.total.statements.pct' ./coverage/coverage-summary.json)
+          COVERAGE_FUNCTIONS=$(jq '.total.functions.pct' ./coverage/coverage-summary.json)
+          COVERAGE_BRANCHES=$(jq '.total.branches.pct' ./coverage/coverage-summary.json)
+          COVERAGE_THRESHOLD=60
+          if (( $(echo "$COVERAGE_LINES < $COVERAGE_THRESHOLD" | bc -l) )); then
+            echo "Coverage is below the threshold of $COVERAGE_THRESHOLD%"
+            exit 1
+          fi
       - name: Build project
         run: npm run build
       - name: Upload Artifact
