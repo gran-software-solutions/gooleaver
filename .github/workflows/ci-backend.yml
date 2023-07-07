@@ -74,9 +74,10 @@ jobs:
         run: echo ${{ steps.vars.outputs.img_tag }} > ../../backend/image-sha-dev.txt
       - name: Commit report
         if: github.ref == 'refs/heads/main'
-        run: |
-          git config --global user.name 'Github Actions'
-          git config --global user.email 'tech@gransoftware.de'
-          git add .
-          git commit -am "Update image tag file"
-          git push
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update image tag"
+          commit_options: '--no-verify --signoff'
+          commit_user_name: 'Github Actions'
+          commit_user_email: 'tech@gransoftware.de'
+          file_pattern: '*.txt'
