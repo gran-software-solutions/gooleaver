@@ -29,6 +29,13 @@ jobs:
         run: npm run lint
       - name: Run Unit Tests
         run: npm run test:unit
+      - name: Run Code Coverage
+        run: npm run coverage
+      - name: Report Coverage
+        uses:  davelosert/vitest-coverage-report-action@v2
+        with:
+          name: 'Webapp Code Coverage'
+          working-directory: webapp/app
       - name: Build project
         run: npm run build
       - name: Upload Artifact
