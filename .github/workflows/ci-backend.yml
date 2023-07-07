@@ -5,7 +5,7 @@ on:
       - 'backend/app/**'
   push:
     paths:
-      - 'backend/**'
+      - 'backend/app/**'
 
 concurrency:
   group: ci-${{ github.ref }}
