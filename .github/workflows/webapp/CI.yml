@@ -4,7 +4,7 @@ on:
     - main
   pull_request:
     paths:
-      - '../webapp/**.*'
+      - 'webapp/app/**.*'
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
