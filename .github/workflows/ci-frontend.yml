@@ -1,15 +1,15 @@
 name: CI - Webapp
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'webapp/app/**'
-      - '.github/workflows/ci-frontend.yml'
   pull_request:
     paths:
       - 'webapp/app/**'
       - '.github/workflows/ci-frontend.yml'
+  push:
+    paths:
+      - 'webapp/app/**'
+      - '.github/workflows/ci-frontend.yml'
+    branches:
+      - main
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
