@@ -1,0 +1,91 @@
+name: CI - Webapp
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'webapp/app/**'
+  pull_request:
+    paths:
+      - 'webapp/app/**'
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    working-directory: webapp/app
+
+jobs:
+  build:
+    name: Build Webapp
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+      - name: Install jq
+        run: sudo apt-get install jq
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: webapp/app
+      - name: Lint
+        run: npm run lint
+      - name: Run Unit Tests
+        run: npm run test:unit
+      - name: Run Code Coverage
+        run: npm run coverage
+      - name: Report Coverage
+        uses:  davelosert/vitest-coverage-report-action@v2
+        with:
+          name: 'Webapp Code Coverage'
+          working-directory: webapp/app
+      - name: Check Coverage
+        run: |
+          COVERAGE_THRESHOLD=90
+          COVERAGE_LINES=$(jq '.total.lines.pct' ./coverage/coverage-summary.json)
+          if [ $COVERAGE_LINES == "\"Unknown\"" ]; then
+            echo "Coverage for Lines is Unknown"
+            exit 1
+          fi
+          if (( COVERAGE_LINES < COVERAGE_THRESHOLD )); then
+            echo "Coverage for Lines is below the threshold of $COVERAGE_THRESHOLD%"
+            exit 1
+          fi
+          COVERAGE_STATEMENT=$(jq '.total.statements.pct' ./coverage/coverage-summary.json)
+          if [ $COVERAGE_STATEMENT == "\"Unknown\"" ]; then
+            echo "Coverage for Statement is Unknown"
+            exit 1
+          fi
+          if (( COVERAGE_STATEMENT < COVERAGE_THRESHOLD )); then
+            echo "Coverage for Statement is below the threshold of $COVERAGE_THRESHOLD%"
+            exit 1
+          fi
+          COVERAGE_FUNCTIONS=$(jq '.total.functions.pct' ./coverage/coverage-summary.json)
+          if [ $COVERAGE_FUNCTIONS == "\"Unknown\"" ]; then
+            echo "Coverage for Functions is Unknown"
+            exit 1
+          fi
+          if (( COVERAGE_FUNCTIONS < COVERAGE_THRESHOLD )); then
+            echo "Coverage for Functions is below the threshold of $COVERAGE_THRESHOLD%"
+            exit 1
+          fi
+          COVERAGE_BRANCHES=$(jq '.total.branches.pct' ./coverage/coverage-summary.json)
+          if [ $COVERAGE_BRANCHES == "\"Unknown\"" ]; then
+            echo "Coverage for Branches is Unknown"
+            exit 1
+          fi
+          if (( COVERAGE_BRANCHES < COVERAGE_THRESHOLD )); then
+            echo "Coverage for Branches is below the threshold of $COVERAGE_THRESHOLD%"
+            exit 1
+          fi
+      - name: Build project
+        run: npm run build
+      - name: Upload Artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-dist
+          path: app-dist/
+          retention-days: 2
