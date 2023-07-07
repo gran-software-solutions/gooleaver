@@ -68,4 +68,4 @@ jobs:
 
       - name: Build image and push
         if: github.ref == 'refs/heads/main'
-        run: ./gradlew jib --tags=${{ steps.meta.outputs.tags }}
+        run: ./gradlew jib -Djib.to.tags=${{ steps.meta.outputs.tags }}
