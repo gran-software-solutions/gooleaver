@@ -52,7 +52,7 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
 
       - name: Build image
-        run: ./gradlew jibDockerBuild --tags=${{ steps.meta.outputs.tags }}
+        run: ./gradlew jibDockerBuild
 
       - name: Login to ACR
         if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && github.ref == 'refs/heads/main'
