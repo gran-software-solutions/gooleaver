@@ -46,6 +46,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          images: gran/gooleaver
           tags: |
             type=sha
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
