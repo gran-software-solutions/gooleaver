@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: dependency-check-report.html
-          path: ./build/reports/dependency-check-report.html
+          path: ./backend/app/build/reports/dependency-check-report.html
 
       - name: Build and test
         run: ./gradlew build
