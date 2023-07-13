@@ -59,7 +59,7 @@ dependencies {
 }
 
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions.jvmTarget = "17"
+compileKotlin.kotlinOptions.jvmTarget = "19"
 
 tasks.withType<ShadowJar> {
   archiveFileName.set("gooleaver-backend.jar")
@@ -106,7 +106,7 @@ tasks.withType<JavaExec> {
 
 jib {
   from {
-    image = "openjdk:17-slim"
+    image = "openjdk:19-slim"
   }
   to {
     image = "acrgooleaver.azurecr.io/gooleaver-backend"
