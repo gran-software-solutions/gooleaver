@@ -59,7 +59,7 @@ dependencies {
 }
 
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions.jvmTarget = "19"
+compileKotlin.kotlinOptions.jvmTarget = "17"
 
 tasks.withType<ShadowJar> {
   archiveFileName.set("gooleaver-backend.jar")
