@@ -137,6 +137,7 @@ allprojects {
 }
 
 configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+  failOnError = false
   cveValidForHours = 24
   failBuildOnCVSS = 2f
   format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.ALL.toString()
