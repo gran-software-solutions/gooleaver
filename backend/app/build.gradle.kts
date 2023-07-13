@@ -10,6 +10,7 @@ plugins {
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
   id("com.google.cloud.tools.jib") version "3.3.1"
   id("io.gitlab.arturbosch.detekt") version "1.23.0"
+  id("org.owasp.dependencycheck") version "8.3.1" apply false
   jacoco
 }
 
@@ -58,7 +59,7 @@ dependencies {
 }
 
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions.jvmTarget = "17"
+compileKotlin.kotlinOptions.jvmTarget = "19"
 
 tasks.withType<ShadowJar> {
   archiveFileName.set("gooleaver-backend.jar")
@@ -94,7 +95,13 @@ tasks.jacocoTestCoverageVerification {
 }
 
 tasks.withType<JavaExec> {
-  args = listOf("run", mainVerticleName, "--redeploy=$watchForChange", "--launcher-class=$launcherClassName", "--on-redeploy=$doOnChange")
+  args = listOf(
+    "run",
+    mainVerticleName,
+    "--redeploy=$watchForChange",
+    "--launcher-class=$launcherClassName",
+    "--on-redeploy=$doOnChange"
+  )
 }
 
 jib {
@@ -123,4 +130,14 @@ tasks.withType<Detekt>().configureEach {
     txt.required.set(true)
     md.required.set(true)
   }
+}
+
+allprojects {
+  apply(plugin = "org.owasp.dependencycheck")
+}
+
+configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+  cveValidForHours = 24
+  failBuildOnCVSS = 2f
+  format = org.owasp.dependencycheck.reporting.ReportGenerator.Format.ALL.toString()
 }

@@ -45,6 +45,22 @@ jobs:
       - name: Run ktlint check
         run: ./gradlew ktlintCheck
 
+      - name: Cache Dependency Check DB
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/dependency-check-data
+          key: $-gradle-$
+          restore-keys: $-gradle
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: dependencyCheckAnalyze
+      - name: Backup Report
+        if: "$"
+        uses: actions/upload-artifact@v2
+        with:
+          name: dependency-check-report.html
+          path: ./build/reports/dependency-check-report.html
+
       - name: Build and test
         run: ./gradlew build
 
