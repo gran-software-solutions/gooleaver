@@ -18,6 +18,15 @@ defaults:
     working-directory: webapp/app
 
 jobs:
+  inclusive-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: woke
+        uses: get-woke/woke-action@v0
+        with:
+          fail-on-error: true
   build:
     name: Build Webapp
     runs-on: ubuntu-latest
