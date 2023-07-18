@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* Java 17
+* Java 19
 
 ## How to run
 
